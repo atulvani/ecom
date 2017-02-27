@@ -19,9 +19,11 @@
     </div>
     <div>
         <h4>Reviews</h4>
-        <blockquote ng-repeat="review in vmProductController.product.reviewList">
+        <blockquote ng-repeat-start="review in vmProductController.product.reviewList" ng-class="{'blockquote-reverse': $even}">
+            <img ng-src="{{review.user.avatar}}" class="img-circle avatar" ng-class="{'pull-left': $odd, 'pull-right': $even}">
             <p class="fs-14 text-justify">{{review.comments}}</p>
-            <footer>{{review.user.name}}</footer>
+            <footer>{{review.user.name}}, {{review.date | date:'dd MMM yyyy'}}</footer>
         </blockquote>
+        <div ng-repeat-end class="clearfix"></div>
     </div>
 </div>

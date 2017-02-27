@@ -25,6 +25,18 @@
             templateUrl: 'cart/cart.html',
             controller: 'cartController',
             controllerAs: 'vmCartController'
+        }).when('/account', {
+            templateUrl: 'account/account.html',
+            controller: 'accountController',
+            controllerAs: 'vmAccountController'
+        }).when('/search', {
+            templateUrl: 'search/search.html',
+            controller: 'searchController',
+            controllerAs: 'vmSearchController'
+        }).when('/search/:query', {
+            templateUrl: 'search/search.html',
+            controller: 'searchController',
+            controllerAs: 'vmSearchController'
         }).otherwise('/');
     }
 
