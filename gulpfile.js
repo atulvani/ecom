@@ -23,7 +23,7 @@ var gulp = require('gulp'),
         './app/js/components/**/*.js',
         './app/dist/templates.js',
     ],
-    cssSrc = ['./app/less/**/*.less'];
+    cssSrc = ['./app/less/styles.less'];
 
 gulp.task('html', function () {
     return gulp.src(htmlSrc)
