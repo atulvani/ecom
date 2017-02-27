@@ -34,9 +34,7 @@ gulp.task('html', function () {
 gulp.task('js', function() {
     del.sync(['./app/js/scripts.js']);
     return gulp.src(jsSrc)
-        .pipe(sourcemaps.init())
         .pipe(concat('scripts.js'))
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./app/dist/'));
 });
 
