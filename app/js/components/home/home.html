@@ -1,0 +1,10 @@
+<div class="container-fluid">
+    <h3>Featured Products</h3>
+    <div class="row">
+        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmHomeController.featuredProductList">
+            <product-summary product="product"></product-summary>
+        </div>
+        <div class="clearfix visible-sm-block" ng-if="$odd"></div>
+        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>
+    </div>
+</div>

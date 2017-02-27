@@ -1,0 +1,45 @@
+{
+  "name": "ecom",
+  "version": "1.0.0",
+  "description": "Mock ecommerce application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atulvani/ecom.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "mock"
+  ],
+  "author": "Atul Vani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atulvani/ecom/issues"
+  },
+  "homepage": "https://github.com/atulvani/ecom#readme",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-mocks": "^1.6.2",
+    "angular-route": "^1.6.2",
+    "angular-ui-bootstrap": "^2.5.0",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.1.1",
+    "json-schema-faker": "^0.4.0",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^2.0.0",
+    "gulp-less": "^3.3.0",
+    "gulp-sourcemaps": "^2.4.1"
+  }
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-controller="appController as vmAppController">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ecom Store</title>
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <link href="./app/dist/styles.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <header class="header">
+        <div class="container-fluid">
+            <ul class="list-inline pull-right">
+                <li>Hello, {{vmAppController.user ? vmAppController.user.name : 'Guest'}}</li>
+                <li>
+                    <a href="#!/cart" title="{{vmAppController.cart.getCartTotal() | currency:'$':2}}">
+                        <i class="fa fa-shopping-cart"></i> Cart
+                        <span class="badge">{{vmAppController.cart.getTotalQuantity()}}</span>
+                    </a>
+                </li>
+                <li><a ng-disabled="vmAppController.cart.getTotalQuantity() <= 0">Checkout</a></li>
+                <li ng-show="!vmAppController.user">
+                    <a ng-click="vmAppController.login()"><i class="fa fa-sign-in"></i>  Login/Register</a>
+                </li>
+                <li ng-show="vmAppController.user"><a>My Account</a></li>
+                <li ng-show="vmAppController.user">
+                    <a ng-click="vmAppController.user = null">
+                        <i class="fa fa-sign-out-o"></i> Logout
+                    </a>
+                </li>
+            </ul>
+            <a href="#!/" id="logo" class="hidden-xs"><h1>Ecom Store</h1></a>
+            <a href="#!/" id="logo" class="visible-xs"><h1>ES</h1></a>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-click="vmAppController.isNavCollapsed = !vmAppController.isNavCollapsed">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" uib-collapse="vmAppController.isNavCollapsed">
+                <ul class="nav navbar-nav">
+                    <li ng-repeat="category in vmAppController.categoryList" ng-class="{'active': false}">
+                        <a href="#!/category/{{category.id}}">{{category.name}}</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
+    <div ng-view></div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <h4>Customer</h4>
+                    <ul class="list-unstyled">
+                        <li><a>My Account</a></li>
+                        <li><a>Orders</a></li>
+                        <li><a>Refunds</a></li>
+                        <li><a>Kitten Care</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <h4>Support</h4>
+                    <ul class="list-unstyled">
+                        <li><a>Contact Us</a></li>
+                        <li><a>Privacy</a></li>
+                        <li><a>Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-sm-6 col-md-3">
+                    <h4>About Us</h4>
+                    <ul class="list-unstyled">
+                        <li><a>History</a></li>
+                        <li><a>Our Leaders</a></li>
+                        <li><a>Mission Statement</a></li>
+                        <li><a>Career</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <h4>Contact Us</h4>
+                    <ul class="list-unstyled">
+                        <li><a>Facebook</a></li>
+                        <li><a>Instagram</a></li>
+                        <li><a>Twitter</a></li>
+                        <li><a>Google+</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./app/dist/scripts.js"></script>
+</body>
+
+</html>
