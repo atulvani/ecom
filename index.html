@@ -76,8 +76,10 @@
                 <div class="col-sm-6 col-md-3">
                     <h4>Customer</h4>
                     <ul class="list-unstyled">
-                        <li><a>My Account</a></li>
-                        <li><a>Orders</a></li>
+                        <li ng-show="vmAppController.user"><a>My Account</a></li>
+                        <li ng-show="vmAppController.user"><a>Orders</a></li>
+                        <li ng-show="!vmAppController.user"><a>Login</a></li>
+                        <li ng-show="!vmAppController.user"><a>Register</a></li>
                         <li><a>Returns</a></li>
                     </ul>
                 </div>

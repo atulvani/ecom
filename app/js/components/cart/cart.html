@@ -1,6 +1,6 @@
 <div class="container-fluid">
-    <h3>Cart</h3>
-    <p ng-if="vmCartController.cart.getItemList().length === 0">No items in your cart.</p>
+    <div class="page-header"><h1>Shopping Cart</h1></div>
+    <p  class="alert alert-warning" ng-if="vmCartController.cart.getItemList().length === 0">No items in your cart.</p>
     <div class="row" ng-if="vmCartController.cart.getItemList().length > 0">
         <div class="col-md-9">
             <div class="table-responsive">
@@ -24,7 +24,7 @@
                             </td>
                             <td class="text-right">{{vmCartController.getItemTotal(item) | currency:'$':2}}</td>
                             <td class="text-right">
-                                <a ng-click="vmCartController.cart.removeItem(item)"><i class="fa fa-times"></i></a>
+                                <a ng-click="vmCartController.cart.removeItem(item)"><i class="fa fa-times text-danger"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-md-3">
             <h4>Related Products</h4>
-            <product-summary product="product" ng-repeat="product in vmCartController.relatedProductList"></productSummary>
+            <product-summary product="product" ng-repeat="product in vmCartController.relatedProductList | limitTo:2"></productSummary>
         </div>
     </div>
 </div>

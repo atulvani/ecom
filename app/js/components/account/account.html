@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <div class="page-header"><h1>My Account</h1></div>
     <div class="row">
         <div class="col-sm-6 col-md-9">
             <dl>
@@ -15,7 +16,7 @@
     <div class="clearfix"></div>
     <div>
         <h4>Orders</h4>
-        <p ng-if="vmAccountController.orderList.length === 0">You do not have any orders.</p>
+        <p class="alert alert-warning" ng-if="vmAccountController.orderList.length === 0">You do not have any orders.</p>
         <div class="table-responsive" ng-if="vmAccountController.orderList.length > 0">
             <table class="table table-striped table-hover">
                 <thead>
