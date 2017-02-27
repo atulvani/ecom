@@ -16,29 +16,27 @@
 </head>
 
 <body ng-cloak>
-    <header class="header">
+    <header class="header py1">
         <div class="container-fluid">
             <ul class="list-inline pull-right">
                 <li>Hello, {{vmAppController.user ? vmAppController.user.name : 'Guest'}}</li>
                 <li>
-                    <a href="#!/cart" title="{{vmAppController.cart.getCartTotal() | currency:'$':2}}">
+                    <a href="#!/cart" tooltip-placement="bottom" uib-tooltip="{{vmAppController.cart.getCartTotal() | currency:'$':2}}">
                         <i class="fa fa-shopping-cart"></i> Cart
                         <span class="badge">{{vmAppController.cart.getTotalQuantity()}}</span>
                     </a>
                 </li>
                 <li><a ng-disabled="vmAppController.cart.getTotalQuantity() <= 0">Checkout</a></li>
                 <li ng-show="!vmAppController.user">
-                    <a ng-click="vmAppController.login()"><i class="fa fa-sign-in"></i>  Login/Register</a>
+                    <a href="#!/login"><i class="fa fa-sign-in"></i>  Login/Register</a>
                 </li>
                 <li ng-show="vmAppController.user"><a href="#!/account">My Account</a></li>
                 <li ng-show="vmAppController.user">
-                    <a ng-click="vmAppController.user = null">
-                        <i class="fa fa-sign-out-o"></i> Logout
-                    </a>
+                    <a ng-click="vmAppController.logout()"><i class="fa fa-sign-out-o"></i> Logout</a>
                 </li>
             </ul>
-            <a href="#!/" id="logo" class="hidden-xs"><h1>Ecom Store</h1></a>
-            <a href="#!/" id="logo" class="visible-xs"><h1>ES</h1></a>
+            <a href="#!/" id="logo" class="hidden-xs"><h1 class="m0">Ecom Store</h1></a>
+            <a href="#!/" id="logo" class="visible-xs"><h1 class="m0">ES</h1></a>
         </div>
     </header>
     <div class="container-fluid">
@@ -56,13 +54,11 @@
                         <a href="#!/category/{{category.id}}">{{category.name}}</a>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-right">
+                <form class="navbar-form navbar-right" ng-submit="vmAppController.search()">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..." ng-model="vmAppController.searchQuery">
+                        <input type="search" class="form-control" placeholder="Search for..." ng-model="vmAppController.searchQuery"/>
                         <span class="input-group-btn">
-                            <a class="btn btn-default" href="#!/search/{{vmAppController.searchQuery}}">
-                                <i class="fa fa-search"></i>
-                            </a>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </form>
@@ -77,9 +73,9 @@
                     <h4>Customer</h4>
                     <ul class="list-unstyled">
                         <li ng-show="vmAppController.user"><a>My Account</a></li>
-                        <li ng-show="vmAppController.user"><a>Orders</a></li>
                         <li ng-show="!vmAppController.user"><a>Login</a></li>
                         <li ng-show="!vmAppController.user"><a>Register</a></li>
+                        <li><a>Orders</a></li>
                         <li><a>Returns</a></li>
                     </ul>
                 </div>
@@ -98,20 +94,25 @@
                         <li><a>History</a></li>
                         <li><a>Leadership</a></li>
                         <li><a>Mission Statement</a></li>
+                        <li><a>Store Locator</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <h4>Contact Us</h4>
                     <ul class="list-inline">
-                        <li><a><i class="fa fa-facebook"></i></a></li>
-                        <li><a><i class="fa fa-twitter"></i></a></li>
-                        <li><a><i class="fa fa-google-plus"></i></a></li>
-                        <li><a><i class="fa fa-instagram"></i></a></li>
+                        <li><a><i class="fa fa-facebook fa-2x"></i></a></li>
+                        <li><a><i class="fa fa-twitter fa-2x"></i></a></li>
+                        <li><a><i class="fa fa-google-plus fa-2x"></i></a></li>
+                        <li><a><i class="fa fa-instagram fa-2x"></i></a></li>
                     </ul>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="your@email.here">
-                        <span class="input-group-btn"><a class="btn btn-primary"><i class="fa fa-envelope"></i></a></span>
-                    </div>
+                    <form class="mt2" ng-submit="vmAppController.sucscribeNewsletter()">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="your@email.here"/>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope"></i></button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
             <p class="text-center">&copy; Copyright</p>

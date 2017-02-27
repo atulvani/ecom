@@ -37,11 +37,15 @@
             templateUrl: 'search/search.html',
             controller: 'searchController',
             controllerAs: 'vmSearchController'
+        }).when('/login', {
+            templateUrl: 'auth/auth.html',
+            controller: 'authController',
+            controllerAs: 'vmAuthController'
         }).otherwise('/');
     }
 
-    appController.$inject = ['httpService', 'cartService'];
-    function appController (httpService, cartService) {
+    appController.$inject = ['httpService', 'cartService', '$location', 'toast'];
+    function appController (httpService, cartService, $location, toast) {
         var vmAppController = this;
 
         vmAppController.isNavCollapsed = true;
@@ -50,6 +54,9 @@
         vmAppController.cart = cartService;
 
         vmAppController.login = login;
+        vmAppController.logout = logout;
+        vmAppController.search = search;
+        vmAppController.sucscribeNewsletter = sucscribeNewsletter;
 
         init();
 
@@ -62,7 +69,21 @@
         function login () {
             httpService.get('/user').then(function(response) {
                 vmAppController.user = response.data;
+                if ($location.path() === '/login') { $location.path('/account'); }
             });
+        }
+
+        function logout () {
+            vmAppController.user = null;
+            if ($location.path() === '/account') { $location.path('/'); }
+        }
+
+        function search () {
+            $location.path('/search/' + vmAppController.searchQuery);
+        }
+
+        function sucscribeNewsletter () {
+            toast.success('Subscribed!!');
         }
     }
 })();

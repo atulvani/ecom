@@ -13,7 +13,6 @@
 
         function init () {
             httpService.get('/account').then(function (response) {
-                console.log(response);
                 vmAccountController.user = response.data.user;
                 vmAccountController.orderList = response.data.orderList;
             });

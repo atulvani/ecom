@@ -1,8 +1,8 @@
 <div class="container-fluid">
-    <div class="page-header"><h1>{{vmProductController.product.name}}</h1></div>
+    <div class="page-header"><h2>{{vmProductController.product.name}}</h2></div>
     <div class="row">
-        <div class="col-md-6">
-            <img ng-src="{{vmProductController.product.image}}" class="img-responsive" />
+        <div class="col-md-6 text-center">
+            <img ng-src="{{vmProductController.product.image}}" class="img-responsive inline-block" />
         </div>
         <div class="col-md-6">
             <p class="text-justify">{{vmProductController.product.description}}</p>
@@ -17,11 +17,11 @@
             </form>
         </div>
     </div>
-    <div>
+    <div class="mt4">
         <h4>Reviews</h4>
         <blockquote ng-repeat-start="review in vmProductController.product.reviewList" ng-class="{'blockquote-reverse': $even}">
-            <img ng-src="{{review.user.avatar}}" class="img-circle avatar" ng-class="{'pull-left': $odd, 'pull-right': $even}">
-            <p class="fs-14 text-justify">{{review.comments}}</p>
+            <img ng-src="{{review.user.avatar}}" class="img-circle avatar" ng-class="{'pull-left mr1': $odd, 'pull-right ml1': $even}">
+            <p class="fs-h5 text-justify">{{review.comments}}</p>
             <footer>{{review.user.name}}, {{review.date | date:'dd MMM yyyy'}}</footer>
         </blockquote>
         <div ng-repeat-end class="clearfix"></div>

@@ -1,65 +1,59 @@
 @import "../../node_modules/bootstrap/less/bootstrap.less";
 @import "./font-awesome/font-awesome.less";
 
-body {
-    // background: #cfc;
+.generate-utils(4);
+.generate-utils(@n, @i: 0) when (@i =< @n) {
+    .p@{i} { padding: unit(@i, rem) !important; }
+    .px@{i} { padding-left: unit(@i, rem) !important; padding-right: unit(@i, rem) !important; }
+    .py@{i} { padding-top: unit(@i, rem) !important; padding-bottom: unit(@i, rem) !important; }
+    .pt@{i} { padding-top: unit(@i, rem) !important; }
+    .pb@{i} { padding-bottom: unit(@i, rem) !important; }
+    .pl@{i} { padding-left: unit(@i, rem) !important; }
+    .pr@{i} { padding-right: unit(@i, rem) !important; }
+    .m@{i} { margin: unit(@i, rem) !important; }
+    .mx@{i} { margin-left: unit(@i, rem) !important; margin-right: unit(@i, rem) !important; }
+    .my@{i} { margin-top: unit(@i, rem) !important; margin-bottom: unit(@i, rem) !important; }
+    .mt@{i} { margin-top: unit(@i, rem) !important; }
+    .mb@{i} { margin-bottom: unit(@i, rem) !important; }
+    .ml@{i} { margin-left: unit(@i, rem) !important; }
+    .mr@{i} { margin-right: unit(@i, rem) !important; }
+    .generate-utils(@n, (@i + 1));
 }
 
-h1, h2, h3, h4 {
-    text-transform: capitalize;
-}
+.fs-h1 { font-size: @font-size-h1 !important; };
+.fs-h2 { font-size: @font-size-h2 !important; };
+.fs-h3 { font-size: @font-size-h3 !important; };
+.fs-h4 { font-size: @font-size-h4 !important; };
+.fs-h5 { font-size: @font-size-h5 !important; };
+.fs-h6 { font-size: @font-size-h6 !important; };
+
+.block { display: block !important; }
+.inline { display: inline !important; }
+.inline-block { display: inline-block !important; }
+
+h1, h2, h3, h4 { text-transform: capitalize; }
+
+input[type=number] { width: 80px; }
 
 a {
     cursor: pointer;
-
-    &[disabled] {
-        cursor: not-allowed;
-    }
-
-    &:hover, &:focus {
-        text-decoration: none;
-    }
+    &[disabled] { cursor: not-allowed; }
+    &:hover, &:focus { text-decoration: none; }
 }
 
 .footer, .header {
     background: #333;
     color: #e6e6e6;
 
-    h1, h2, h3, h4 {
-        color: #fff;
-    }
+    h1, h2, h3, h4 { color: #fff; }
 
     a {
         color: #ccc;
-
-        &:hover, &:focus {
-            color: #fff;
-        }
-
-        &[disabled] {
-            color: #999;
-        }
+        &[disabled] { color: #999; }
+        &:hover, &:focus { color: #fff; }
     }
 }
 
-.header {
-    padding: 10px 0;
+blockquote .avatar { height: 50px; }
 
-    #logo h1 {
-        margin: 0;
-    }
-}
-
-.fs-14 {
-    font-size: 1.4rem;
-}
-
-blockquote {
-    .avatar {
-        height: 50px;
-        margin-right: 10px;
-    }
-    &.blockquote-reverse .avatar {
-        margin: 0 0 0 10px;
-    }
-}
+.toast {position: fixed; top: 5px; width: 100%;}

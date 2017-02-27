@@ -11,6 +11,7 @@
             date = {type: 'string', faker: 'date.recent'},
             personName = {type: 'string', faker: 'name.findName'},
             name = {type: 'string', faker: 'lorem.words'},
+            categoryName = {type: 'string', faker: 'commerce.department'},
             email = {type: 'string', faker: 'internet.email'},
             image = {type: 'string', faker: 'image.image'},
             avatar = {type: 'string', faker: 'image.avatar'},
@@ -21,7 +22,7 @@
                 properties: {id: id, name: personName, email: email, avatar: avatar},
                 required: ['id', 'name', 'email', 'avatar']
             },
-            category = {type: 'object', properties: {id: id, name: name}, required: ['id', 'name']},
+            category = {type: 'object', properties: {id: id, name: categoryName}, required: ['id', 'name']},
             amount = {type: 'string', faker: 'commerce.price'};
 
         jsfRegisterMock({url: '/user', method: 'GET', responseSchema: user});
