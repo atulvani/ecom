@@ -5,23 +5,20 @@
         .module('app')
         .factory('cartService', cartService);
 
-    cartService.$inject = ['httpService'];
-    function cartService(httpService) {
+    cartService.$inject = ['httpService', '$window'];
+    function cartService(httpService, $window) {
         var cart = {itemList: []};
 
         init();
 
         function init () {
-            if (localStorage.cartItemList) {
-                cart.itemList = JSON.parse(localStorage.cartItemList);
-            };
+            var cartItemList = $window.localStorage.getItem('cartItemList');
+            if (cartItemList) { cart.itemList = JSON.parse(cartItemList); };
         }
 
-        function saveCart () { localStorage.cartItemList = angular.toJson(cart.itemList); }
+        function saveCart () { $window.localStorage.setItem('cartItemList', angular.toJson(cart.itemList)); }
 
-        function getItemList () {
-            return cart.itemList;
-        }
+        function getItemList () { return cart.itemList; }
 
         function getTotalQuantity () {
             var totalQuantity = 0;

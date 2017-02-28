@@ -3,10 +3,10 @@
 (function () {
     angular
         .module('app')
-        .factory('toast', toast);
+        .factory('toastService', toastService);
 
-    toast.$inject = ['$compile', '$rootScope'];
-    function toast ($compile, $rootScope) {
+    toastService.$inject = ['$compile', '$rootScope'];
+    function toastService ($compile, $rootScope) {
         var html = '<div class="toast" uib-alert ng-class="className" dismiss-on-timeout="5000" close="close()">{{content}}</div>';
         return {
             success: function (content) {

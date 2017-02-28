@@ -138529,8 +138529,8 @@ angular.module('jsf', [])
         }).otherwise('/');
     }
 
-    appController.$inject = ['httpService', 'cartService', '$location', 'toast'];
-    function appController (httpService, cartService, $location, toast) {
+    appController.$inject = ['httpService', 'cartService', '$location', 'toastService'];
+    function appController (httpService, cartService, $location, toastService) {
         var vmAppController = this;
 
         vmAppController.isNavCollapsed = true;
@@ -138541,7 +138541,7 @@ angular.module('jsf', [])
         vmAppController.login = login;
         vmAppController.logout = logout;
         vmAppController.search = search;
-        vmAppController.sucscribeNewsletter = sucscribeNewsletter;
+        vmAppController.subscribeNewsletter = subscribeNewsletter;
 
         init();
 
@@ -138567,8 +138567,8 @@ angular.module('jsf', [])
             $location.path('/search/' + vmAppController.searchQuery);
         }
 
-        function sucscribeNewsletter () {
-            toast.success('Subscribed!!');
+        function subscribeNewsletter () {
+            toastService.success('Subscribed!!');
         }
     }
 })();
@@ -138580,23 +138580,20 @@ angular.module('jsf', [])
         .module('app')
         .factory('cartService', cartService);
 
-    cartService.$inject = ['httpService'];
-    function cartService(httpService) {
+    cartService.$inject = ['httpService', '$window'];
+    function cartService(httpService, $window) {
         var cart = {itemList: []};
 
         init();
 
         function init () {
-            if (localStorage.cartItemList) {
-                cart.itemList = JSON.parse(localStorage.cartItemList);
-            };
+            var cartItemList = $window.localStorage.getItem('cartItemList');
+            if (cartItemList) { cart.itemList = JSON.parse(cartItemList); };
         }
 
-        function saveCart () { localStorage.cartItemList = angular.toJson(cart.itemList); }
+        function saveCart () { $window.localStorage.setItem('cartItemList', angular.toJson(cart.itemList)); }
 
-        function getItemList () {
-            return cart.itemList;
-        }
+        function getItemList () { return cart.itemList; }
 
         function getTotalQuantity () {
             var totalQuantity = 0;
@@ -138728,10 +138725,10 @@ angular.module('jsf', [])
 (function () {
     angular
         .module('app')
-        .factory('toast', toast);
+        .factory('toastService', toastService);
 
-    toast.$inject = ['$compile', '$rootScope'];
-    function toast ($compile, $rootScope) {
+    toastService.$inject = ['$compile', '$rootScope'];
+    function toastService ($compile, $rootScope) {
         var html = '<div class="toast" uib-alert ng-class="className" dismiss-on-timeout="5000" close="close()">{{content}}</div>';
         return {
             success: function (content) {
@@ -138819,29 +138816,6 @@ angular.module('jsf', [])
 (function () {
     angular
         .module('app')
-        .controller('homeController', homeController);
-
-    homeController.$inject = ['httpService'];
-    function homeController (httpService) {
-        var vmHomeController = this;
-
-        vmHomeController.productList = [];
-
-        init();
-
-        function init () {
-            httpService.get('/productList').then(function(response) {
-                vmHomeController.featuredProductList = response.data;
-            });
-        }
-    }
-})();
-
-'use strict';
-
-(function () {
-    angular
-        .module('app')
         .controller('authController', authController);
 
     authController.$inject =[];
@@ -138914,20 +138888,19 @@ angular.module('jsf', [])
 (function () {
     angular
         .module('app')
-        .controller('searchController', searchController);
+        .controller('homeController', homeController);
 
-    searchController.$inject = ['httpService', '$routeParams'];
-    function searchController (httpService, $routeParams) {
-        var vmSearchController = this;
+    homeController.$inject = ['httpService'];
+    function homeController (httpService) {
+        var vmHomeController = this;
 
-        vmSearchController.searchQuery = $routeParams.query;
-        vmSearchController.searchResultList = [];
+        vmHomeController.productList = [];
 
         init();
 
         function init () {
-            httpService.get('/productList').then(function (response) {
-                vmSearchController.searchResultList = response.data;
+            httpService.get('/productList').then(function(response) {
+                vmHomeController.featuredProductList = response.data;
             });
         }
     }
@@ -138963,11 +138936,35 @@ angular.module('jsf', [])
     }
 })();
 
+'use strict';
+
+(function () {
+    angular
+        .module('app')
+        .controller('searchController', searchController);
+
+    searchController.$inject = ['httpService', '$routeParams'];
+    function searchController (httpService, $routeParams) {
+        var vmSearchController = this;
+
+        vmSearchController.searchQuery = $routeParams.query;
+        vmSearchController.searchResultList = [];
+
+        init();
+
+        function init () {
+            httpService.get('/productList').then(function (response) {
+                vmSearchController.searchResultList = response.data;
+            });
+        }
+    }
+})();
+
 angular.module('templates', []).run(['$templateCache', function($templateCache) {$templateCache.put('productSummary/productSummary.html','<a href="#!/product/{{product.id}}" class="thumbnail">\n    <img ng-src="{{product.image}}" class="img-responsive">\n    <div class="caption">\n        <h3>{{product.name}}</h3>\n        <p class="text-justify">{{product.description}}</p>\n    </div>\n</a>\n');
 $templateCache.put('account/account.html','<div class="container-fluid">\n    <div class="page-header"><h2>My Account</h2></div>\n    <div class="row">\n        <div class="col-sm-6 col-md-9">\n            <dl>\n                <dt>Name</dt>\n                <dd>{{vmAccountController.user.name}}</dd>\n                <dt>Email</dt>\n                <dd>{{vmAccountController.user.email}}</dd>\n            </dl>\n        </div>\n        <div class="hidden-xs col-sm-6 col-md-3">\n            <img src="{{vmAccountController.user.avatar}}" class="img-responsive img-circle pull-right"/>\n        </div>\n    </div>\n    <div class="clearfix"></div>\n    <div>\n        <h4>Orders</h4>\n        <p class="alert alert-warning" ng-if="vmAccountController.orderList.length === 0">You do not have any orders.</p>\n        <div class="table-responsive" ng-if="vmAccountController.orderList.length > 0">\n            <table class="table table-striped table-hover">\n                <thead>\n                    <tr>\n                        <th>Order#</th>\n                        <th>Date</th>\n                        <th>Status</th>\n                        <th></th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr ng-repeat="order in vmAccountController.orderList"\n                        ng-class="{\'success\': order.status === \'Completed\', \'warning\': order.status === \'Returned\'}">\n                        <td>{{order.id}}</td>\n                        <td>{{order.date | date:\'dd MMM yyyy\'}}</td>\n                        <td>{{order.status}}</td>\n                        <th class="text-right">\n                            <button class="btn btn-link" ng-if="order.status === \'Completed\'">Return</button>\n                        </th>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n</div>\n');
-$templateCache.put('home/home.html','<div class="container-fluid">\n    <div class="page-header"><h2>Featured Products</h2></div>\n    <div class="row" equal-heights>\n        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmHomeController.featuredProductList">\n            <product-summary product="product"></product-summary>\n        </div>\n        <div class="clearfix visible-sm-block" ng-if="$odd"></div>\n        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>\n    </div>\n</div>\n');
 $templateCache.put('auth/auth.html','<div class="container-fluid">\n    <div class="row">\n        <div class="col-sm-6">\n            <div class="page-header"><h2>{{vmAuthController.isForgotPassword ? \'Reset Password\' : \'Login\'}}</h2></div>\n            <form ng-submit="vmAppController.login()" ng-if="!vmAuthController.isForgotPassword">\n                <div class="form-group">\n                    <label for="username">Email</label>\n                    <input type="email" class="form-control" id="username"/>\n                </div>\n                <div class="form-group">\n                    <label for="loginPassword">Password</label>\n                    <input type="password" class="form-control" id="loginPassword"/>\n                </div>\n                <div class="checkbox">\n                    <label><input type="checkbox">Remember me</label>\n                </div>\n                <button type="submit" class="btn btn-default">Login</button>\n                <a class="btn btn-link" ng-click="vmAuthController.isForgotPassword = true">forgot password?</a>\n            </form>\n            <form ng-submit="vmAppController.login()" ng-if="vmAuthController.isForgotPassword">\n                <div class="form-group">\n                    <label for="username">Email</label>\n                    <input type="email" class="form-control" id="username"/>\n                </div>\n                <button type="submit" class="btn btn-default">Reset Password</button>\n                <a class="btn btn-link" ng-click="vmAuthController.isForgotPassword = false">back to login</a>\n            </form>\n        </div>\n        <div class="col-sm-6">\n            <div class="page-header"><h2>Create Account</h2></div>\n            <form ng-submit="vmAppController.login()">\n                <div class="form-group">\n                    <label for="name">Name</label>\n                    <input type="text" class="form-control" id="name"/>\n                </div>\n                <div class="form-group">\n                    <label for="email">Email</label>\n                    <input type="email" class="form-control" id="email"/>\n                </div>\n                <div class="form-group">\n                    <label for="password">Password</label>\n                    <input type="password" class="form-control" id="password"/>\n                </div>\n                <div class="form-group">\n                    <label for="confirmPasswrod">Confirm Password</label>\n                    <input type="password" class="form-control" id="confirmPasswrod"/>\n                </div>\n                <div class="checkbox">\n                    <label><input type="checkbox">Remember me</label>\n                </div>\n                <button type="submit" class="btn btn-default">Register</button>\n            </form>\n        </div>\n    </div>\n    <br/>\n</div>\n');
 $templateCache.put('cart/cart.html','<div class="container-fluid">\n    <div class="page-header"><h2>Shopping Cart</h2></div>\n    <p  class="alert alert-warning" ng-if="vmCartController.cart.getItemList().length === 0">No items in your cart.</p>\n    <div class="row" ng-if="vmCartController.cart.getItemList().length > 0">\n        <div class="col-md-9">\n            <div class="table-responsive">\n                <table class="table table-hover table-striped">\n                    <thead>\n                        <tr>\n                            <th colspan="2">Product</th>\n                            <th class="text-right">Price</th>\n                            <th class="text-right">Quantity</th>\n                            <th class="text-right">Total</th>\n                            <th></th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr ng-repeat="item in vmCartController.cart.getItemList()">\n                            <td style="width: 100px; max-width: 100px;"><img ng-src="{{item.product.image}}" class="img-responsive"/></td>\n                            <td>{{item.product.name}}</td>\n                            <td class="text-right">${{item.product.price}}</td>\n                            <td ng-init="quantity = item.quantity">\n                                <input type="number" min="1" class="form-control pull-right" ng-model="quantity" ng-change="vmCartController.cart.updateItemQuantity(item, quantity)"/>\n                            </td>\n                            <td class="text-right">{{vmCartController.getItemTotal(item) | currency:\'$\':2}}</td>\n                            <td class="text-right">\n                                <a ng-click="vmCartController.cart.removeItem(item)"><i class="fa fa-times fa-lg text-danger"></i></a>\n                            </td>\n                        </tr>\n                    </tbody>\n                    <tfoot>\n                        <tr>\n                            <th colspan="4">Grand Total</th>\n                            <td class="text-right">{{vmCartController.cart.getCartTotal() | currency:\'$\':2}}</td>\n                            <td></td>\n                        </tr>\n                    </tfoot>\n                </table>\n            </div>\n            <a href="#!/" class="btn btn-default">Continue Shopping</a>\n            <button class="btn btn-primary pull-right">Checkout</button>\n        </div>\n        <div class="col-md-3">\n            <h4>Related Products</h4>\n            <product-summary product="product" ng-repeat="product in vmCartController.relatedProductList | limitTo:2"></productSummary>\n        </div>\n    </div>\n</div>\n');
 $templateCache.put('category/category.html','<div class="container-fluid">\n    <div class="page-header"><h2>{{vmCategoryController.category.name}}</h2></div>\n    <div class="row" equal-heights>\n        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmCategoryController.productList">\n            <product-summary product="product"></product-summary>\n        </div>\n        <div class="clearfix visible-sm-block" ng-if="$odd"></div>\n        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>\n    </div>\n</div>\n');
-$templateCache.put('search/search.html','<div class="container-fluid">\n    <div class="page-header"><h2>Search results for "{{vmSearchController.searchQuery}}"</h2></div>\n    <div class="row">\n        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmSearchController.searchResultList">\n            <product-summary product="product"></product-summary>\n        </div>\n        <div class="clearfix visible-sm-block" ng-if="$odd"></div>\n        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>\n    </div>\n</div>\n');
-$templateCache.put('product/product.html','<div class="container-fluid">\n    <div class="page-header"><h2>{{vmProductController.product.name}}</h2></div>\n    <div class="row">\n        <div class="col-md-6 text-center">\n            <img ng-src="{{vmProductController.product.image}}" class="img-responsive inline-block" />\n        </div>\n        <div class="col-md-6">\n            <p class="text-justify">{{vmProductController.product.description}}</p>\n\n            <strong>{{vmProductController.product.price | currency:\'$\':2}}</strong>\n\n            <form class="form-inline" ng-submit="vmProductController.addToCart()">\n                <div class="form-group">\n                    <input type="number" class="form-control" placeholder="Quantity" ng-model="vmProductController.quantity" min="1"/>\n                </div>\n                <button type="submit" class="btn btn-primary">Add to Cart</button>\n            </form>\n        </div>\n    </div>\n    <div class="mt4">\n        <h4>Reviews</h4>\n        <blockquote ng-repeat-start="review in vmProductController.product.reviewList" ng-class="{\'blockquote-reverse\': $even}">\n            <img ng-src="{{review.user.avatar}}" class="img-circle avatar" ng-class="{\'pull-left mr1\': $odd, \'pull-right ml1\': $even}">\n            <p class="fs-h5 text-justify">{{review.comments}}</p>\n            <footer>{{review.user.name}}, {{review.date | date:\'dd MMM yyyy\'}}</footer>\n        </blockquote>\n        <div ng-repeat-end class="clearfix"></div>\n    </div>\n</div>\n');}]);
+$templateCache.put('home/home.html','<div class="container-fluid">\n    <div class="page-header"><h2>Featured Products</h2></div>\n    <div class="row" equal-heights>\n        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmHomeController.featuredProductList">\n            <product-summary product="product"></product-summary>\n        </div>\n        <div class="clearfix visible-sm-block" ng-if="$odd"></div>\n        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>\n    </div>\n</div>\n');
+$templateCache.put('product/product.html','<div class="container-fluid">\n    <div class="page-header"><h2>{{vmProductController.product.name}}</h2></div>\n    <div class="row">\n        <div class="col-md-6 text-center">\n            <img ng-src="{{vmProductController.product.image}}" class="img-responsive inline-block" />\n        </div>\n        <div class="col-md-6">\n            <p class="text-justify">{{vmProductController.product.description}}</p>\n\n            <strong>{{vmProductController.product.price | currency:\'$\':2}}</strong>\n\n            <form class="form-inline" ng-submit="vmProductController.addToCart()">\n                <div class="form-group">\n                    <input type="number" class="form-control" placeholder="Quantity" ng-model="vmProductController.quantity" min="1"/>\n                </div>\n                <button type="submit" class="btn btn-primary">Add to Cart</button>\n            </form>\n        </div>\n    </div>\n    <div class="mt4">\n        <h4>Reviews</h4>\n        <blockquote ng-repeat-start="review in vmProductController.product.reviewList" ng-class="{\'blockquote-reverse\': $even}">\n            <img ng-src="{{review.user.avatar}}" class="img-circle avatar" ng-class="{\'pull-left mr1\': $odd, \'pull-right ml1\': $even}">\n            <p class="fs-h5 text-justify">{{review.comments}}</p>\n            <footer>{{review.user.name}}, {{review.date | date:\'dd MMM yyyy\'}}</footer>\n        </blockquote>\n        <div ng-repeat-end class="clearfix"></div>\n    </div>\n</div>\n');
+$templateCache.put('search/search.html','<div class="container-fluid">\n    <div class="page-header"><h2>Search results for "{{vmSearchController.searchQuery}}"</h2></div>\n    <div class="row">\n        <div class="col-sm-6 col-md-3" ng-repeat-start="product in vmSearchController.searchResultList">\n            <product-summary product="product"></product-summary>\n        </div>\n        <div class="clearfix visible-sm-block" ng-if="$odd"></div>\n        <div class="clearfix visible-md-block" ng-repeat-end ng-if="($index + 1) % 4 === 0"></div>\n    </div>\n</div>\n');}]);

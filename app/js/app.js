@@ -44,8 +44,8 @@
         }).otherwise('/');
     }
 
-    appController.$inject = ['httpService', 'cartService', '$location', 'toast'];
-    function appController (httpService, cartService, $location, toast) {
+    appController.$inject = ['httpService', 'cartService', '$location', 'toastService'];
+    function appController (httpService, cartService, $location, toastService) {
         var vmAppController = this;
 
         vmAppController.isNavCollapsed = true;
@@ -56,7 +56,7 @@
         vmAppController.login = login;
         vmAppController.logout = logout;
         vmAppController.search = search;
-        vmAppController.sucscribeNewsletter = sucscribeNewsletter;
+        vmAppController.subscribeNewsletter = subscribeNewsletter;
 
         init();
 
@@ -82,8 +82,8 @@
             $location.path('/search/' + vmAppController.searchQuery);
         }
 
-        function sucscribeNewsletter () {
-            toast.success('Subscribed!!');
+        function subscribeNewsletter () {
+            toastService.success('Subscribed!!');
         }
     }
 })();
