@@ -8,7 +8,7 @@ Demo is available at: http://ecom.bitballoon.com/
 * MVC, SPA eCommerce application using Angular JS 1.x
 * Fake data using JSON Schema Faker
 * Pages: home, category, product, cart, login/register
-* Actions: login, logout, subscribe newsletter, add to cart, remove cart item, update cart item quantity
+* Actions: login, logout, subscribe newsletter, add to cart, remove cart item, update cart item quantity, apply coupon code
 * Test cases
 
 ## Quick start

@@ -6,14 +6,20 @@
         beforeEach(function () {
             module('app');
             module(function ($provide) {
+                $provide.value('toastService', {
+                    success: function () {}
+                });
                 $provide.value('$window', {
                     localStorage: {
                         getItem: function () {
-                            return angular.toJson([
-                                {quantity: 2, product: {price: 10, id: 1}},
-                                {quantity: 3, product: {price: 20, id: 2}},
-                                {quantity: 1, product: {price: 30, id: 3}}
-                            ]);
+                            return angular.toJson({
+                                percentDiscount: 0,
+                                itemList: [
+                                    {quantity: 2, product: {price: 10, id: 1}},
+                                    {quantity: 3, product: {price: 20, id: 2}},
+                                    {quantity: 1, product: {price: 30, id: 3}}
+                                ]
+                            });
                         },
                         setItem: function () {}
                     },
@@ -58,7 +64,7 @@
             });
         });
         describe('cartService.removeItem', function () {
-            it('should be defined', function () {
+            it('should remove the item from the cart', function () {
                 expect(cartService.getItemList().length).toBe(3);
                 expect(cartService.getTotalQuantity()).toBe(6);
                 expect(cartService.getCartTotal()).toBe(110);

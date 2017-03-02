@@ -23,7 +23,7 @@
                 <li>
                     <a href="#!/cart" tooltip-placement="bottom" uib-tooltip="{{vmAppController.cart.getCartTotal() | currency:'$':2}}">
                         <i class="fa fa-shopping-cart"></i> Cart
-                        <span class="badge">{{vmAppController.cart.getTotalQuantity()}}</span>
+                        <span class="badge" ng-show="vmAppController.cart.getTotalQuantity() > 0">{{vmAppController.cart.getTotalQuantity()}}</span>
                     </a>
                 </li>
                 <li><a ng-disabled="vmAppController.cart.getTotalQuantity() <= 0">Checkout</a></li>

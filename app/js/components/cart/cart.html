@@ -29,16 +29,40 @@
                         </tr>
                     </tbody>
                     <tfoot>
+                        <tr ng-show="vmCartController.cart.getDiscount() > 0">
+                            <th colspan="4">Sub Total</th>
+                            <td class="text-right text-error">{{vmCartController.cart.getCartTotal() - vmCartController.cart.getDiscount() | currency:'$':2}}</td>
+                            <td></td>
+                        </tr>
+                        <tr ng-show="vmCartController.cart.getDiscount() > 0">
+                            <th colspan="4">Discount</th>
+                            <td class="text-right text-danger"><b>- {{vmCartController.cart.getDiscount() | currency:'$':2}}</b></td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <th colspan="4">Grand Total</th>
-                            <td class="text-right">{{vmCartController.cart.getCartTotal() | currency:'$':2}}</td>
+                            <td class="text-right text-success fs-h4">{{vmCartController.cart.getCartTotal() | currency:'$':2}}</td>
                             <td></td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-            <a href="#!/" class="btn btn-default">Continue Shopping</a>
-            <button class="btn btn-primary pull-right">Checkout</button>
+            <div class="row">
+                <div class="col-sm-6 col-md-offset-1 col-md-4 col-md-push-3 pb1">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="enter coupon code"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="vmCartController.cart.applyCoupon()">Apply</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-offset-1 col-md-3 col-md-push-3 pb1">
+                    <button class="btn btn-primary btn-block">Checkout <i class="fa fa-arrow-right"></i></button>
+                </div>
+                <div class="col-sm-12 col-md-3 col-md-pull-9 pb1">
+                    <a href="#!/" class="btn btn-default btn-block"><i class="fa fa-arrow-left"></i> Continue Shopping</a>
+                </div>
+            </div>
         </div>
         <div class="col-md-3">
             <h4>Related Products</h4>

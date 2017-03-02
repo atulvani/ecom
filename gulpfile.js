@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     del = require('del'),
     templateCache = require('gulp-angular-templatecache'),
-    sourcemaps = require('gulp-sourcemaps'),
+    uglify = require('gulp-uglify'),
     htmlSrc = ['./app/js/directives/**/*.html', './app/js/components/**/*.html', './app/js/common/templates/*.html'],
     jsSrc = [
         './node_modules/jquery/dist/jquery.js',
@@ -35,6 +35,7 @@ gulp.task('js', function() {
     del.sync(['./app/js/scripts.js']);
     return gulp.src(jsSrc)
         .pipe(concat('scripts.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('./app/dist/'));
 });
 

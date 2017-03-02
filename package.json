@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Mock ecommerce application",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -33,14 +34,16 @@
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-autoprefixer": "^3.1.1",
+    "gulp-cli": "^1.2.2",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^2.0.0",
     "gulp-less": "^3.3.0",
-    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.0.1",
     "jasmine": "^2.5.3",
     "jasmine-core": "^2.5.2",
     "karma": "^1.5.0",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.2"
   }

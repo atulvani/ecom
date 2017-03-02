@@ -5,18 +5,18 @@
         .module('app')
         .factory('cartService', cartService);
 
-    cartService.$inject = ['httpService', '$window'];
-    function cartService(httpService, $window) {
-        var cart = {itemList: []};
+    cartService.$inject = ['$window', 'toastService'];
+    function cartService($window, toastService) {
+        var cart = {itemList: [], percentDiscount: 0};
 
         init();
 
         function init () {
-            var cartItemList = $window.localStorage.getItem('cartItemList');
-            if (cartItemList) { cart.itemList = JSON.parse(cartItemList); };
+            var savedShoppingCart = $window.localStorage.getItem('shoppingCart');
+            if (!_.isEmpty(savedShoppingCart)) { cart = JSON.parse(savedShoppingCart); };
         }
 
-        function saveCart () { $window.localStorage.setItem('cartItemList', angular.toJson(cart.itemList)); }
+        function saveCart () { $window.localStorage.setItem('shoppingCart', angular.toJson(cart)); }
 
         function getItemList () { return cart.itemList; }
 
@@ -33,7 +33,7 @@
             angular.forEach(cart.itemList, function (item) {
                 totalPrice += parseFloat(item.product.price) * item.quantity;
             });
-            return totalPrice;
+            return totalPrice - (totalPrice * cart.percentDiscount / 100);
         }
 
         function addToCart(product, quantity) {
@@ -48,6 +48,7 @@
 
         function removeItem (item) {
             _.remove(cart.itemList, {product: {id: item.product.id}});
+            if (cart.itemList.length === 0) { cart.percentDiscount = 0; }
             saveCart();
         }
 
@@ -57,13 +58,29 @@
             saveCart();
         }
 
+        function applyCoupon () {
+            cart.percentDiscount = _.random(5, 25);
+            toastService.success('You got a ' + cart.percentDiscount + '% discount!!');
+            saveCart();
+        }
+
+        function getDiscount () {
+            var totalPrice = 0;
+            angular.forEach(cart.itemList, function (item) {
+                totalPrice += parseFloat(item.product.price) * item.quantity;
+            });
+            return totalPrice * cart.percentDiscount / 100;
+        }
+
         return {
             getItemList: getItemList,
             getTotalQuantity: getTotalQuantity,
             getCartTotal: getCartTotal,
             addToCart: addToCart,
             removeItem: removeItem,
-            updateItemQuantity: updateItemQuantity
+            updateItemQuantity: updateItemQuantity,
+            applyCoupon: applyCoupon,
+            getDiscount: getDiscount
         };
     }
 })();
