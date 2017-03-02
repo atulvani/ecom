@@ -5,7 +5,7 @@ Mock ecommmerce application, built primarily using Angular JS 1.x, Twitter Boots
 Demo is available at: http://ecom.bitballoon.com/
 
 ## Features
-* Responsive (RWD), Single Page Application (SPA) eCommerce application using Angular JS 1.x
+* Responsive (RWD), single page (SPA) eCommerce application using Angular JS 1.x
 * Fake data using JSON Schema Faker
 * Pages: home, category, product, search, cart, acount, login/register/reset-password
 * Actions: login, logout, subscribe newsletter, add to cart, remove cart item, update cart item quantity
