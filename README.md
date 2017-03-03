@@ -12,7 +12,6 @@ Demo is available at: http://ecom.bitballoon.com/
 * Test cases using Karma and Jasmine
 * Gulp build tool
 * NPM for package and dependancy management
->>>>>>> ac17be2d8387385433c77cdb3b5b2c66b10a77c4
 
 ## Quick start
 Download zip or clone the repository and open index.html in the browser.
