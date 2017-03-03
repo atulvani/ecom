@@ -29,7 +29,7 @@
             vmAppController = $controller('appController', {$scope: $rootScope.$new()});
         }));
         describe('vmAppController', function () {
-            it('should be defined', function () {
+            it('should initialize data', function () {
                 expect(vmAppController).toBeDefined();
                 expect(vmAppController.categoryList.length).toBe(3);
             });
