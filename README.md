@@ -5,11 +5,14 @@ Mock ecommmerce application, built primarily using Angular JS 1.x, Twitter Boots
 Demo is available at: http://ecom.bitballoon.com/
 
 ## Features
-* MVC, SPA eCommerce application using Angular JS 1.x
+* Responsive (RWD), single page (SPA) eCommerce application using Angular JS 1.x
 * Fake data using JSON Schema Faker
-* Pages: home, category, product, cart, login/register
+* Pages: home, category, product, search, cart, account, login/register/reset-password
 * Actions: login, logout, subscribe newsletter, add to cart, remove cart item, update cart item quantity, apply coupon code
-* Test cases
+* Test cases using Karma and Jasmine
+* Gulp build tool
+* NPM for package and dependancy management
+>>>>>>> ac17be2d8387385433c77cdb3b5b2c66b10a77c4
 
 ## Quick start
 Download zip or clone the repository and open index.html in the browser.
